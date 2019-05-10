@@ -27,6 +27,9 @@ public class GameController : MonoBehaviour
     public IRacurs door3;
     public IRacurs door4;
     public IRacurs room;
+    public IRacurs table;
+    public IRacurs floor;
+    public IRacurs corpse;
 
     private void Awake()
     {
@@ -54,8 +57,11 @@ public class GameController : MonoBehaviour
         door3 = RacursSides.CreateRacurs(transform.GetChild(13).gameObject);
         door4 = RacursSides.CreateRacurs(transform.GetChild(14).gameObject);
         room = Racurs.CreateRacurs(transform.GetChild(15).gameObject);
+        table = Racurs.CreateRacurs(transform.GetChild(16).gameObject);
+        floor = Racurs.CreateRacurs(transform.GetChild(17).gameObject);
+        corpse = Racurs.CreateRacurs(transform.GetChild(18).gameObject);
 
-        
+
         cor1L.SetForw(cor2L);
         cor1L.SetPrev(cor1R);
         cor1L.SetLeft(win2);
@@ -110,6 +116,17 @@ public class GameController : MonoBehaviour
         door4.SetPrev(cor2R);
 
         room.SetPrev(door2);
+        room.SetLeft(corpse);
+        room.SetForw(table);
+
+        table.SetPrev(room);
+        table.SetLeft(corpse);
+
+        floor.SetPrev(room);
+        floor.SetLeft(corpse);
+
+        corpse.SetPrev(room);
+        corpse.SetRight(room);
 
         doorToBegin.room = room;
 
