@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        print("Game controller Start");
         cor1L = Racurs.CreateRacurs(transform.GetChild(1).gameObject);
         cor2L = Racurs.CreateRacurs(transform.GetChild(2).gameObject);
         cor3L = Racurs.CreateRacurs(transform.GetChild(3).gameObject);

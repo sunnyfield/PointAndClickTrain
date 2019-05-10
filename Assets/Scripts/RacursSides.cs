@@ -7,6 +7,7 @@ public class RacursSides : Racurs
     protected RacursSides()
     { }
 
+
     public static new RacursSides CreateRacurs(GameObject obj)
     {
         RacursSides racurs = new RacursSides { gameObject = obj };

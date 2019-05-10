@@ -6,6 +6,7 @@ public class Interactable : MonoBehaviour
 {
     public IRacurs room;
 
+
     private void OnMouseDown()
     {
         if(gameObject.CompareTag("Door"))

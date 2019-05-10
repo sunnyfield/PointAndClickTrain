@@ -10,7 +10,6 @@ public class Button_GameMenu : MonoBehaviour
 
     private bool isOpen = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         animatorComponent = gameObject.GetComponentInParent<Animator>();
