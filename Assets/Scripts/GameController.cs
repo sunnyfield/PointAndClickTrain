@@ -138,5 +138,21 @@ public class GameController : MonoBehaviour
         //left.onClick.AddListener(() => firstRacurs.Left());
         ////right = GameObject.Find("/Canvas/Button_GoRight").GetComponent<Button>();
         //right.onClick.AddListener(() => firstRacurs.Right());
-    }  
+    }
+    
+    public void DeactivateButtons()
+    {
+        forward.gameObject.SetActive(false);
+        backward.gameObject.SetActive(false);
+        left.gameObject.SetActive(false);
+        right.gameObject.SetActive(false);
+    }
+
+    public void AtivateButtons()
+    {
+        forward.gameObject.SetActive(true);
+        backward.gameObject.SetActive(true);
+        left.gameObject.SetActive(true);
+        right.gameObject.SetActive(true);
+    }
 }

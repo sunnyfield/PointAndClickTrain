@@ -13,6 +13,7 @@ TagManager:
   - FirstRacurs
   - Racurs
   - Door
+  - PickUp
   layers:
   - Default
   - TransparentFX

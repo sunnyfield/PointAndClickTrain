@@ -5,12 +5,24 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+    public static UIController instance;
+
     public Button gameMenuButton;
     public Animator gameMenuAnimator;
 
     public Button exitButton;
 
+    public Button backFromCloseUpButton;
+
     private bool isOpen = false;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     void Start()
     {
