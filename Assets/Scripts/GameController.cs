@@ -1,35 +1,28 @@
-﻿using System.Collections;
+﻿//using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+public enum RacursName { Corridor1WinL, Corridor2WinL, Corridor3WinL, Corridor1WinR, Corridor2WinR, Corridor3WinR,
+                         Room, Table, Floor, Corpse,
+                         Windows1, Windows2, Windows3, Windows4, Doors1, Doors2, Doors3, Doors4 };
+
 public class GameController : MonoBehaviour
 {
-    public static GameController instance;
+    public static GameController instance = null;
+
+    public static int racursCount = System.Enum.GetValues(typeof(RacursName)).Length;
+
+    public Dictionary<RacursName, IRacurs> racurses = new Dictionary<RacursName, IRacurs>(racursCount);
 
     public Button forward;
     public Button backward;
     public Button left;
     public Button right;
-    public Interactable doorToBegin;
-    public IRacurs cor1L;
-    public IRacurs cor2L;
-    public IRacurs cor3L;
-    public IRacurs cor1R;
-    public IRacurs cor2R;
-    public IRacurs cor3R;
-    public IRacurs win1;
-    public IRacurs win2;
-    public IRacurs win3;
-    public IRacurs win4;
-    public IRacurs door1;
-    public IRacurs door2;
-    public IRacurs door3;
-    public IRacurs door4;
-    public IRacurs room;
-    public IRacurs table;
-    public IRacurs floor;
-    public IRacurs corpse;
+    public InteractableToRacurs doorToRoom;
+    public InteractableToRacurs roomToTable;
 
     private void Awake()
     {
@@ -41,94 +34,100 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        print("Game controller Start");
-        cor1L = Racurs.CreateRacurs(transform.GetChild(1).gameObject);
-        cor2L = Racurs.CreateRacurs(transform.GetChild(2).gameObject);
-        cor3L = Racurs.CreateRacurs(transform.GetChild(3).gameObject);
-        cor1R = Racurs.CreateRacurs(transform.GetChild(4).gameObject);
-        cor2R = Racurs.CreateRacurs(transform.GetChild(5).gameObject);
-        cor3R = Racurs.CreateRacurs(transform.GetChild(6).gameObject);
-        win1 = RacursSides.CreateRacurs(transform.GetChild(7).gameObject);
-        win2 = RacursSides.CreateRacurs(transform.GetChild(8).gameObject);
-        win3 = RacursSides.CreateRacurs(transform.GetChild(9).gameObject);
-        win4 = RacursSides.CreateRacurs(transform.GetChild(10).gameObject);
-        door1 = RacursSides.CreateRacurs(transform.GetChild(11).gameObject);
-        door2 = RacursSides.CreateRacurs(transform.GetChild(12).gameObject);
-        door3 = RacursSides.CreateRacurs(transform.GetChild(13).gameObject);
-        door4 = RacursSides.CreateRacurs(transform.GetChild(14).gameObject);
-        room = Racurs.CreateRacurs(transform.GetChild(15).gameObject);
-        table = Racurs.CreateRacurs(transform.GetChild(16).gameObject);
-        floor = Racurs.CreateRacurs(transform.GetChild(17).gameObject);
-        corpse = Racurs.CreateRacurs(transform.GetChild(18).gameObject);
+        for(int i = 0; i < 10; i++)
+        {
+            var racurs = Racurs.CreateRacurs(transform.GetChild(i).gameObject);
+            racurses[(RacursName)i] = racurs;
 
+            if (i > 0)
+                racurs.DeactivateRacurs();
+        }
 
-        cor1L.SetForw(cor2L);
-        cor1L.SetPrev(cor1R);
-        cor1L.SetLeft(win2);
-        cor1L.SetRight(door2);
-        cor1L.SetButtons();
+        for (int i = 10; i < racursCount; i++)
+        {
+            var racurs = RacursSides.CreateRacurs(transform.GetChild(i).gameObject);
+            racurses[(RacursName)i] = racurs;
 
-        cor2L.SetForw(cor3L);
-        cor2L.SetPrev(cor1L);
-        cor2L.SetLeft(win1);
-        cor2L.SetRight(door1);
-        
-        cor3L.SetPrev(cor2L);
+            if (i > 0)
+                racurs.DeactivateRacurs();
+        }
 
-        cor1R.SetForw(cor2R);
-        cor1R.SetPrev(cor1L);
-        cor1R.SetLeft(door3);
-        cor1R.SetRight(win3);
+        racurses[RacursName.Corridor1WinL].SetForw(racurses[RacursName.Corridor2WinL]);
+        racurses[RacursName.Corridor1WinL].SetPrev(racurses[RacursName.Corridor1WinR]);
+        racurses[RacursName.Corridor1WinL].SetLeft(racurses[RacursName.Windows2]);
+        racurses[RacursName.Corridor1WinL].SetRight(racurses[RacursName.Doors2]);
+        racurses[RacursName.Corridor1WinL].SetButtons();
 
-        cor2R.SetForw(cor3R);
-        cor2R.SetPrev(cor1R);
-        cor2R.SetLeft(door4);
-        cor2R.SetRight(win4);
-        
-        cor3R.SetPrev(cor2R);
-        
-        win1.SetLeft(win2);
-        win1.SetPrev(cor2L);
-        
-        win2.SetLeft(win3);
-        win2.SetRight(win1);
-        win2.SetPrev(cor1L);
-        
-        win3.SetLeft(win4);
-        win3.SetRight(win2);
-        win3.SetPrev(cor1R);
-        
-        win4.SetRight(win3);
-        win4.SetPrev(cor2R);
+        racurses[RacursName.Corridor2WinL].SetForw(racurses[RacursName.Corridor3WinL]);
+        racurses[RacursName.Corridor2WinL].SetPrev(racurses[RacursName.Corridor1WinL]);
+        racurses[RacursName.Corridor2WinL].SetLeft(racurses[RacursName.Windows1]);
+        racurses[RacursName.Corridor2WinL].SetRight(racurses[RacursName.Doors1]);
 
-        door1.SetRight(door2);
-        door1.SetPrev(cor2L);
+        racurses[RacursName.Corridor3WinL].SetPrev(racurses[RacursName.Corridor2WinL]);
 
-        door2.SetLeft(door1);
-        door2.SetRight(door3);
-        door2.SetPrev(cor1L);
+        racurses[RacursName.Corridor1WinR].SetForw(racurses[RacursName.Corridor2WinR]);
+        racurses[RacursName.Corridor1WinR].SetPrev(racurses[RacursName.Corridor1WinL]);
+        racurses[RacursName.Corridor1WinR].SetLeft(racurses[RacursName.Doors3]);
+        racurses[RacursName.Corridor1WinR].SetRight(racurses[RacursName.Windows3]);
 
-        door3.SetLeft(door2);
-        door3.SetRight(door4);
-        door3.SetPrev(cor1R);
+        racurses[RacursName.Corridor2WinR].SetForw(racurses[RacursName.Corridor3WinR]);
+        racurses[RacursName.Corridor2WinR].SetPrev(racurses[RacursName.Corridor1WinR]);
+        racurses[RacursName.Corridor2WinR].SetLeft(racurses[RacursName.Doors4]);
+        racurses[RacursName.Corridor2WinR].SetRight(racurses[RacursName.Windows4]);
 
-        door4.SetLeft(door3);
-        door4.SetPrev(cor2R);
+        racurses[RacursName.Corridor3WinR].SetPrev(racurses[RacursName.Corridor2WinR]);
 
-        room.SetPrev(door2);
-        room.SetLeft(corpse);
-        room.SetForw(table);
+        racurses[RacursName.Windows1].SetPrev(racurses[RacursName.Corridor2WinL]);
+        racurses[RacursName.Windows1].SetLeft(racurses[RacursName.Windows2]);
 
-        table.SetPrev(room);
-        table.SetLeft(corpse);
+        racurses[RacursName.Windows2].SetPrev(racurses[RacursName.Corridor1WinL]);
+        racurses[RacursName.Windows2].SetLeft(racurses[RacursName.Windows3]);
+        racurses[RacursName.Windows2].SetRight(racurses[RacursName.Windows1]);
 
-        floor.SetPrev(room);
-        floor.SetLeft(corpse);
+        racurses[RacursName.Windows3].SetPrev(racurses[RacursName.Corridor1WinR]);
+        racurses[RacursName.Windows3].SetLeft(racurses[RacursName.Windows4]);
+        racurses[RacursName.Windows3].SetRight(racurses[RacursName.Windows2]);
 
-        corpse.SetPrev(room);
-        corpse.SetRight(room);
+        racurses[RacursName.Windows4].SetPrev(racurses[RacursName.Corridor2WinR]);
+        racurses[RacursName.Windows4].SetRight(racurses[RacursName.Windows3]);
 
-        doorToBegin.room = room;
+        racurses[RacursName.Doors1].SetPrev(racurses[RacursName.Corridor2WinL]);
+        racurses[RacursName.Doors1].SetRight(racurses[RacursName.Doors2]);
+
+        racurses[RacursName.Doors2].SetPrev(racurses[RacursName.Corridor1WinL]);
+        racurses[RacursName.Doors2].SetLeft(racurses[RacursName.Doors1]);
+        racurses[RacursName.Doors2].SetRight(racurses[RacursName.Doors3]);
+
+        racurses[RacursName.Doors3].SetPrev(racurses[RacursName.Corridor1WinR]);
+        racurses[RacursName.Doors3].SetLeft(racurses[RacursName.Doors2]);
+        racurses[RacursName.Doors3].SetRight(racurses[RacursName.Doors4]);
+
+        racurses[RacursName.Doors4].SetPrev(racurses[RacursName.Corridor2WinR]);
+        racurses[RacursName.Doors4].SetLeft(racurses[RacursName.Doors3]);
+
+        //room.SetPrev(door2);
+        //room.SetLeft(corpse);
+        //room.SetForw(table);
+
+        racurses[RacursName.Room].SetPrev(racurses[RacursName.Doors2]);
+
+        //table.SetPrev(room);
+        //table.SetLeft(corpse);
+
+        racurses[RacursName.Table].SetPrev(racurses[RacursName.Room]);
+
+        //floor.SetPrev(room);
+        //floor.SetLeft(corpse);
+
+        racurses[RacursName.Floor].SetPrev(racurses[RacursName.Room]);
+
+        //corpse.SetPrev(room);
+        //corpse.SetRight(room);
+
+        racurses[RacursName.Corpse].SetPrev(racurses[RacursName.Room]);
+
+        doorToRoom.racurs = racurses[RacursName.Room];
+        roomToTable.racurs = racurses[RacursName.Table];
 
         ////forward = GameObject.Find("/Canvas/Button_GoForward").GetComponent<Button>();
         //forward.onClick.AddListener(() => firstRacurs.Forward());

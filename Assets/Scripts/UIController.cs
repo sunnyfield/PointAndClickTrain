@@ -12,7 +12,7 @@ public class UIController : MonoBehaviour
 
     public Button exitButton;
 
-    public Button backFromCloseUpButton;
+    public Button backFromCloseupButton;
 
     private bool isOpen = false;
 
@@ -30,11 +30,17 @@ public class UIController : MonoBehaviour
         gameMenuAnimator.SetBool("isOpen", isOpen);
 
         exitButton.onClick.AddListener(() => Application.Quit());
+        backFromCloseupButton.gameObject.SetActive(false);
     }
 
     private void OpenMenu()
     {
         isOpen = !isOpen;
         gameMenuAnimator.SetBool("isOpen", isOpen);
+    }
+
+    public void ShowItem(GameObject item)
+    {
+        print(item);
     }
 }

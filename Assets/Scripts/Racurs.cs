@@ -38,8 +38,8 @@ public class Racurs : IRacurs
         if (forwardRacurs == null)
             return;
 
-        forwardRacurs.ActivateRacurs();
         forwardRacurs.SetPrev(this);
+        forwardRacurs.ActivateRacurs();    
         gameObject.SetActive(false);
     }
 
@@ -48,8 +48,8 @@ public class Racurs : IRacurs
         if (leftRacurs == null)
             return;
 
-        leftRacurs.ActivateRacurs();
         leftRacurs.SetPrev(this);
+        leftRacurs.ActivateRacurs();      
         gameObject.SetActive(false);
     }
 
@@ -58,8 +58,8 @@ public class Racurs : IRacurs
         if (rightRacurs == null)
             return;
 
-        rightRacurs.ActivateRacurs();
         rightRacurs.SetPrev(this);
+        rightRacurs.ActivateRacurs();
         gameObject.SetActive(false);
     }
 
