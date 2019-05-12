@@ -93,37 +93,37 @@ public class UIController : MonoBehaviour
         if (results2D.Count > 0)
         {
             if (results2D[0].gameObject.CompareTag(tagMagnifier))
-                instance.SetCursorMagnifier();
+                SetCursorMagnifier();
             else if (results2D[0].gameObject.CompareTag(tagLeft))
-                instance.SetCursorLeft();
+                SetCursorLeft();
             else if (results2D[0].gameObject.CompareTag(tagRight))
-                instance.SetCursorRight();
+                SetCursorRight();
             else if (results2D[0].gameObject.CompareTag(tagForward))
-                instance.SetCursorForward();
+                SetCursorForward();
             else if (results2D[0].gameObject.CompareTag(tagBackward))
-                instance.SetCursorBackward();
+                SetCursorBackward();
             else if (results2D[0].gameObject.CompareTag(tagOpen))
-                instance.SetCursorOpen();
+                SetCursorOpen();
             else
-                instance.SetCursorMain();
+                SetCursorMain();
         }
         else
-            instance.SetCursorMain();
+            SetCursorMain();
 
         if (resultsUI.Count > 0)
         {
             if (resultsUI[0].gameObject.CompareTag(tagLeft))
-                instance.SetCursorLeft();
+                SetCursorLeft();
             else if (resultsUI[0].gameObject.CompareTag(tagRight))
-                instance.SetCursorRight();
+                SetCursorRight();
             else if (resultsUI[0].gameObject.CompareTag(tagForward))
-                instance.SetCursorForward();
+                SetCursorForward();
             else if (resultsUI[0].gameObject.CompareTag(tagBackward))
-                instance.SetCursorBackward();
+                SetCursorBackward();
             else if (resultsUI[0].gameObject.CompareTag(tagTake))
-                instance.SetCursorTake();
+                SetCursorTake();
             else
-                instance.SetCursorMain();
+                SetCursorMain();
         }
 
         resultsUI.Clear();
@@ -156,7 +156,7 @@ public class UIController : MonoBehaviour
     {
         Image cell;
         cell = inventoryCells[freeCell++].GetComponent<Image>();
-        cell.sprite = item;
+        //cell.sprite = item;
         cell.color = Color.white;
 
     }
