@@ -15,6 +15,7 @@ public class UIController : MonoBehaviour
     public const string tagTake = "Take";
     public const string tagMagnifier = "Magnifier";
     public const string tagOpen = "Open";
+    public const string tagCell = "InventoryCell";
 
     public GraphicRaycaster raycasterUI;
     public Physics2DRaycaster raycaster2D;
@@ -44,14 +45,17 @@ public class UIController : MonoBehaviour
 
     public Button exitButton;
 
-    [SerializeField]
-    private GameObject itemPanel;
+    public GameObject itemPanel;
     private GameObject objToActivate;
+    private GameObject itemText;
 
-    [SerializeField]
-    private GameObject characterSheet;
-    [SerializeField]
-    private GameObject closedNote;
+
+    public GameObject characterSheet;
+
+    public GameObject closedNote;
+
+    private GameObject[] inventoryCells;
+    private int freeCell = 0;
 
     private bool isOpen = false;
 
@@ -71,8 +75,9 @@ public class UIController : MonoBehaviour
         gameMenuAnimator.SetBool("isOpen", isOpen);
 
         exitButton.onClick.AddListener(() => Application.Quit());
-        //backFromCloseupButton.gameObject.SetActive(false);
-        
+
+        inventoryCells = GameObject.FindGameObjectsWithTag(tagCell);
+
         itemPanel.SetActive(false);
 
         Cursor.SetCursor(cursorMain, hotSpot, cursorMode);
@@ -131,7 +136,7 @@ public class UIController : MonoBehaviour
         gameMenuAnimator.SetBool("isOpen", isOpen);
     }
 
-    public void ShowItem(Sprite item, Sprite text, GameObject obj)
+    public void ShowItem(Sprite item, GameObject text, GameObject obj)
     {
         if (obj != null)
         {
@@ -140,10 +145,20 @@ public class UIController : MonoBehaviour
         }
         itemPanel.transform.GetChild(1).gameObject.SetActive(false);
         itemPanel.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = item;
-        itemPanel.transform.GetChild(1).gameObject.SetActive(true);
-        itemPanel.transform.GetChild(2).gameObject.GetComponent<Image>().sprite = text;
+        itemPanel.transform.GetChild(1).gameObject.SetActive(true);      
         itemPanel.SetActive(true);
+        itemText = text;
+        text.SetActive(true);
         instance.DeactivateButtons();
+    }
+
+    public void PlaceToInventory(Sprite item)
+    {
+        Image cell;
+        cell = inventoryCells[freeCell++].GetComponent<Image>();
+        cell.sprite = item;
+        cell.color = Color.white;
+
     }
 
     public void Back()
@@ -151,6 +166,7 @@ public class UIController : MonoBehaviour
         if (objToActivate != null)
             objToActivate.SetActive(true);
 
+        itemText.SetActive(false);
         itemPanel.SetActive(false);
         GameController.instance.currentRacurs.SetButtons();
         objToActivate = null;

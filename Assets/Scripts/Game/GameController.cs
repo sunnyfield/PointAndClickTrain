@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 
 public enum RacursName { Corridor1WinL, Corridor2WinL, Corridor3WinL, Corridor1WinR, Corridor2WinR, Corridor3WinR,
-                         Room, Table, Floor, Corpse,
+                         Room, Table, Window, Floor, Corpse,
                          Windows1, Windows2, Windows3, Windows4, Doors1, Doors2, Doors3, Doors4 };
 
 public class GameController : MonoBehaviour
@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     public InteractableToRacurs roomToTable;
     public InteractableToRacurs roomToFloor;
     public InteractableToRacurs roomToCorpse;
+    public InteractableToRacurs tableToWindow;
 
     public IRacurs currentRacurs;
 
@@ -34,7 +35,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 11; i++)
         {
             var racurs = Racurs.CreateRacurs(transform.GetChild(i).gameObject);
             racurses[(RacursName)i] = racurs;
@@ -43,7 +44,7 @@ public class GameController : MonoBehaviour
                 racurs.DeactivateRacurs();
         }
 
-        for (int i = 10; i < racursCount; i++)
+        for (int i = 11; i < racursCount; i++)
         {
             var racurs = RacursSides.CreateRacurs(transform.GetChild(i).gameObject);
             racurses[(RacursName)i] = racurs;
@@ -113,10 +114,13 @@ public class GameController : MonoBehaviour
 
         racurses[RacursName.Corpse].SetPrev(racurses[RacursName.Room]);
 
+        racurses[RacursName.Window].SetPrev(racurses[RacursName.Table]);
+
         doorToRoom.racurs = racurses[RacursName.Room];
         roomToTable.racurs = racurses[RacursName.Table];
         roomToFloor.racurs = racurses[RacursName.Floor];
         roomToCorpse.racurs = racurses[RacursName.Corpse];
+        tableToWindow.racurs = racurses[RacursName.Window];
 
         ////forward = GameObject.Find("/Canvas/Button_GoForward").GetComponent<Button>();
         //forward.onClick.AddListener(() => firstRacurs.Forward());
