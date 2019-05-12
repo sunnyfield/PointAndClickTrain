@@ -3066,7 +3066,7 @@ GameObject:
   - component: {fileID: 631748270}
   m_Layer: 0
   m_Name: 1
-  m_TagString: Open
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4063,7 +4063,7 @@ GameObject:
   - component: {fileID: 752212030}
   m_Layer: 0
   m_Name: Corridor3L
-  m_TagString: Untagged
+  m_TagString: Open
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
