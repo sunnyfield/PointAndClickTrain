@@ -80,6 +80,8 @@ public class Racurs : IRacurs
 
     public void ActivateRacurs()
     {
+        GameController.instance.currentRacurs = this;
+        UIController.instance.SetCursorMain();
         gameObject.SetActive(true);
         SetButtons();
     }
@@ -113,47 +115,47 @@ public class Racurs : IRacurs
     public void SetButtons()
     {
         if (forwardRacurs == null)
-            GameController.instance.forward.gameObject.SetActive(false);
+            UIController.instance.forward.gameObject.SetActive(false);
         else
         {
-            GameController.instance.forward.gameObject.SetActive(true);
-            GameController.instance.forward.onClick.RemoveAllListeners();
-            GameController.instance.forward.onClick.AddListener(Forward);
+            UIController.instance.forward.gameObject.SetActive(true);
+            UIController.instance.forward.onClick.RemoveAllListeners();
+            UIController.instance.forward.onClick.AddListener(Forward);
         }
 
         if (prevRacurs == null)
-            GameController.instance.backward.gameObject.SetActive(false);
+            UIController.instance.backward.gameObject.SetActive(false);
         else
         {
-            GameController.instance.backward.gameObject.SetActive(true);
-            GameController.instance.backward.onClick.RemoveAllListeners();
-            GameController.instance.backward.onClick.AddListener(Backward);
+            UIController.instance.backward.gameObject.SetActive(true);
+            UIController.instance.backward.onClick.RemoveAllListeners();
+            UIController.instance.backward.onClick.AddListener(Backward);
         }
 
         if (rightRacurs == null)
-            GameController.instance.right.gameObject.SetActive(false);
+            UIController.instance.right.gameObject.SetActive(false);
         else
         {
-            GameController.instance.right.gameObject.SetActive(true);
-            GameController.instance.right.onClick.RemoveAllListeners();
-            GameController.instance.right.onClick.AddListener(Right);
+            UIController.instance.right.gameObject.SetActive(true);
+            UIController.instance.right.onClick.RemoveAllListeners();
+            UIController.instance.right.onClick.AddListener(Right);
         }
 
         if (leftRacurs == null)
-            GameController.instance.left.gameObject.SetActive(false);
+            UIController.instance.left.gameObject.SetActive(false);
         else
         {
-            GameController.instance.left.gameObject.SetActive(true);
-            GameController.instance.left.onClick.RemoveAllListeners();
-            GameController.instance.left.onClick.AddListener(Left);
+            UIController.instance.left.gameObject.SetActive(true);
+            UIController.instance.left.onClick.RemoveAllListeners();
+            UIController.instance.left.onClick.AddListener(Left);
         }
     }
 
     protected void ClearButtons()
     {
-        GameController.instance.forward.onClick.RemoveAllListeners();
-        GameController.instance.backward.onClick.RemoveAllListeners();
-        GameController.instance.right.onClick.RemoveAllListeners();
-        GameController.instance.left.onClick.RemoveAllListeners();
+        UIController.instance.forward.onClick.RemoveAllListeners();
+        UIController.instance.backward.onClick.RemoveAllListeners();
+        UIController.instance.right.onClick.RemoveAllListeners();
+        UIController.instance.left.onClick.RemoveAllListeners();
     }  
 }

@@ -17,12 +17,12 @@ public class GameController : MonoBehaviour
 
     public Dictionary<RacursName, IRacurs> racurses = new Dictionary<RacursName, IRacurs>(racursCount);
 
-    public Button forward;
-    public Button backward;
-    public Button left;
-    public Button right;
     public InteractableToRacurs doorToRoom;
     public InteractableToRacurs roomToTable;
+    public InteractableToRacurs roomToFloor;
+    public InteractableToRacurs roomToCorpse;
+
+    public IRacurs currentRacurs;
 
     private void Awake()
     {
@@ -105,29 +105,18 @@ public class GameController : MonoBehaviour
         racurses[RacursName.Doors4].SetPrev(racurses[RacursName.Corridor2WinR]);
         racurses[RacursName.Doors4].SetLeft(racurses[RacursName.Doors3]);
 
-        //room.SetPrev(door2);
-        //room.SetLeft(corpse);
-        //room.SetForw(table);
-
         racurses[RacursName.Room].SetPrev(racurses[RacursName.Doors2]);
-
-        //table.SetPrev(room);
-        //table.SetLeft(corpse);
 
         racurses[RacursName.Table].SetPrev(racurses[RacursName.Room]);
 
-        //floor.SetPrev(room);
-        //floor.SetLeft(corpse);
-
         racurses[RacursName.Floor].SetPrev(racurses[RacursName.Room]);
-
-        //corpse.SetPrev(room);
-        //corpse.SetRight(room);
 
         racurses[RacursName.Corpse].SetPrev(racurses[RacursName.Room]);
 
         doorToRoom.racurs = racurses[RacursName.Room];
         roomToTable.racurs = racurses[RacursName.Table];
+        roomToFloor.racurs = racurses[RacursName.Floor];
+        roomToCorpse.racurs = racurses[RacursName.Corpse];
 
         ////forward = GameObject.Find("/Canvas/Button_GoForward").GetComponent<Button>();
         //forward.onClick.AddListener(() => firstRacurs.Forward());
@@ -137,21 +126,5 @@ public class GameController : MonoBehaviour
         //left.onClick.AddListener(() => firstRacurs.Left());
         ////right = GameObject.Find("/Canvas/Button_GoRight").GetComponent<Button>();
         //right.onClick.AddListener(() => firstRacurs.Right());
-    }
-    
-    public void DeactivateButtons()
-    {
-        forward.gameObject.SetActive(false);
-        backward.gameObject.SetActive(false);
-        left.gameObject.SetActive(false);
-        right.gameObject.SetActive(false);
-    }
-
-    public void AtivateButtons()
-    {
-        forward.gameObject.SetActive(true);
-        backward.gameObject.SetActive(true);
-        left.gameObject.SetActive(true);
-        right.gameObject.SetActive(true);
     }
 }
