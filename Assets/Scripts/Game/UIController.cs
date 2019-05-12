@@ -55,7 +55,7 @@ public class UIController : MonoBehaviour
     public GameObject closedNote;
 
     private GameObject[] inventoryCells;
-    private int freeCell = 0;
+    private int freeCell;
 
     private bool isOpen = false;
 
@@ -77,6 +77,7 @@ public class UIController : MonoBehaviour
         exitButton.onClick.AddListener(() => Application.Quit());
 
         inventoryCells = GameObject.FindGameObjectsWithTag(tagCell);
+        freeCell = 0;
 
         itemPanel.SetActive(false);
 
@@ -156,7 +157,7 @@ public class UIController : MonoBehaviour
     {
         Image cell;
         cell = inventoryCells[freeCell++].GetComponent<Image>();
-        //cell.sprite = item;
+        cell.sprite = item;
         cell.color = Color.white;
 
     }
