@@ -17,14 +17,4 @@ public class InteractableToItem: MonoBehaviour
         UIController.instance.ShowItem(itemSprite, text, objToDeactivate);
         gameObject.SetActive(false);
     }
-
-    private void OnMouseOver()
-    {
-        UIController.instance.SetCursorMagnifier();
-    }
-
-    private void OnMouseExit()
-    {
-        UIController.instance.SetCursorMain();
-    }
 }

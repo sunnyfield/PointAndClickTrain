@@ -2,10 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UIController : MonoBehaviour
 {
     public static UIController instance;
+
+    public const string tagLeft = "Left";
+    public const string tagRight = "Right";
+    public const string tagBackward = "Backward";
+    public const string tagForward = "Forward";
+    public const string tagTake = "Take";
+    public const string tagMagnifier = "Magnifier";
+    public const string tagOpen = "Open";
+
+    public GraphicRaycaster raycasterUI;
+    public Physics2DRaycaster raycaster2D;
+    public PointerEventData pointerEventData;
+    public EventSystem eventSystem;
+    private List<RaycastResult> resultsUI = new List<RaycastResult>();
+    private List<RaycastResult> results2D = new List<RaycastResult>();
 
     public Texture2D cursorMain;
     public Texture2D cursorPoint;
@@ -28,10 +44,14 @@ public class UIController : MonoBehaviour
 
     public Button exitButton;
 
-    //public Button backFromCloseupButton;
     [SerializeField]
     private GameObject itemPanel;
     private GameObject objToActivate;
+
+    [SerializeField]
+    private GameObject characterSheet;
+    [SerializeField]
+    private GameObject closedNote;
 
     private bool isOpen = false;
 
@@ -45,6 +65,8 @@ public class UIController : MonoBehaviour
 
     void Start()
     {
+        pointerEventData = new PointerEventData(eventSystem) { position = Input.mousePosition };
+
         gameMenuButton.onClick.AddListener(() => OpenMenu());
         gameMenuAnimator.SetBool("isOpen", isOpen);
 
@@ -56,6 +78,53 @@ public class UIController : MonoBehaviour
         Cursor.SetCursor(cursorMain, hotSpot, cursorMode);
     }
 
+    private void Update()
+    {
+        pointerEventData.position = Input.mousePosition;
+
+        raycasterUI.Raycast(pointerEventData, resultsUI);
+        raycaster2D.Raycast(pointerEventData, results2D);
+
+        if (results2D.Count > 0)
+        {
+            if (results2D[0].gameObject.CompareTag(tagMagnifier))
+                instance.SetCursorMagnifier();
+            else if (results2D[0].gameObject.CompareTag(tagLeft))
+                instance.SetCursorLeft();
+            else if (results2D[0].gameObject.CompareTag(tagRight))
+                instance.SetCursorRight();
+            else if (results2D[0].gameObject.CompareTag(tagForward))
+                instance.SetCursorForward();
+            else if (results2D[0].gameObject.CompareTag(tagBackward))
+                instance.SetCursorBackward();
+            else if (results2D[0].gameObject.CompareTag(tagOpen))
+                instance.SetCursorOpen();
+            else
+                instance.SetCursorMain();
+        }
+        else
+            instance.SetCursorMain();
+
+        if (resultsUI.Count > 0)
+        {
+            if (resultsUI[0].gameObject.CompareTag(tagLeft))
+                instance.SetCursorLeft();
+            else if (resultsUI[0].gameObject.CompareTag(tagRight))
+                instance.SetCursorRight();
+            else if (resultsUI[0].gameObject.CompareTag(tagForward))
+                instance.SetCursorForward();
+            else if (resultsUI[0].gameObject.CompareTag(tagBackward))
+                instance.SetCursorBackward();
+            else if (resultsUI[0].gameObject.CompareTag(tagTake))
+                instance.SetCursorTake();
+            else
+                instance.SetCursorMain();
+        }
+
+        resultsUI.Clear();
+        results2D.Clear();
+    }
+
     private void OpenMenu()
     {
         isOpen = !isOpen;
@@ -64,14 +133,14 @@ public class UIController : MonoBehaviour
 
     public void ShowItem(Sprite item, Sprite text, GameObject obj)
     {
-        //backFromCloseupButton.gameObject.SetActive(true);
-        //backFromCloseupButton.onClick.AddListener(Back);
         if (obj != null)
         {
             objToActivate = obj;
             obj.SetActive(false);
         }
+        itemPanel.transform.GetChild(1).gameObject.SetActive(false);
         itemPanel.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = item;
+        itemPanel.transform.GetChild(1).gameObject.SetActive(true);
         itemPanel.transform.GetChild(2).gameObject.GetComponent<Image>().sprite = text;
         itemPanel.SetActive(true);
         instance.DeactivateButtons();
@@ -83,9 +152,25 @@ public class UIController : MonoBehaviour
             objToActivate.SetActive(true);
 
         itemPanel.SetActive(false);
-        //backFromCloseupButton.gameObject.SetActive(false);
         GameController.instance.currentRacurs.SetButtons();
         objToActivate = null;
+    }
+
+    public void ShowCharacterSheet(Sprite characterSheetSprite)
+    {
+        if (closedNote.activeInHierarchy)
+            closedNote.SetActive(false);
+
+        if (!characterSheet.activeInHierarchy)
+            characterSheet.SetActive(true);
+        
+        characterSheet.GetComponent<Image>().sprite = characterSheetSprite;
+    }
+
+    public void CloseNote()
+    {
+        characterSheet.SetActive(false);
+        closedNote.SetActive(true);
     }
 
     public void DeactivateButtons()
@@ -108,47 +193,47 @@ public class UIController : MonoBehaviour
             right.gameObject.SetActive(true);
     }
 
-    public void SetCursorMain()
+    private void SetCursorMain()
     {
         Cursor.SetCursor(cursorMain, hotSpot, cursorMode);
     }
 
-    public void SetCursorPoint()
+    private void SetCursorPoint()
     {
         Cursor.SetCursor(cursorPoint, hotSpot, cursorMode);
     }
 
-    public void SetCursorTake()
+    private void SetCursorTake()
     {
         Cursor.SetCursor(cursorTake, hotSpot, cursorMode);
     }
 
-    public void SetCursorLeft()
+    private void SetCursorLeft()
     {
         Cursor.SetCursor(cursorLeft, hotSpot, cursorMode);
     }
 
-    public void SetCursorRight()
+    private void SetCursorRight()
     {
         Cursor.SetCursor(cursorRight, hotSpot, cursorMode);
     }
 
-    public void SetCursorForward()
+    private void SetCursorForward()
     {
         Cursor.SetCursor(cursorForward, hotSpot, cursorMode);
     }
 
-    public void SetCursorBackward()
+    private void SetCursorBackward()
     {
         Cursor.SetCursor(cursorBackward, hotSpot, cursorMode);
     }
 
-    public void SetCursorMagnifier()
+    private void SetCursorMagnifier()
     {
         Cursor.SetCursor(cursorMagnifier, hotSpot, cursorMode);
     }
 
-    public void SetCursorOpen()
+    private void SetCursorOpen()
     {
         Cursor.SetCursor(cursorPoint, hotSpot, cursorMode);
     }

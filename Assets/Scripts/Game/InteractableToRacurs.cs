@@ -11,14 +11,4 @@ public class InteractableToRacurs : MonoBehaviour
     {
         racurs.OpenRacurs();
     }
-
-    private void OnMouseOver()
-    {
-        UIController.instance.SetCursorMagnifier();
-    }
-
-    private void OnMouseExit()
-    {
-        UIController.instance.SetCursorMain();
-    }
 }

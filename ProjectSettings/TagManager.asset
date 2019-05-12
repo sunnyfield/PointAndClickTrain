@@ -4,16 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - CenterWL
-  - ToDoorWL
-  - Windows
-  - Rooms
-  - CenterWR
-  - ToDoorWR
-  - FirstRacurs
-  - Racurs
-  - Door
-  - PickUp
+  - Left
+  - Right
+  - Backward
+  - Forward
+  - Take
+  - Magnifier
+  - Open
   layers:
   - Default
   - TransparentFX

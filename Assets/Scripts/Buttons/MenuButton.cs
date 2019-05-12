@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonRight : EventTrigger
+public class MenuButton : EventTrigger
 {
-    public override void OnPointerEnter(PointerEventData data)
+    public override void OnPointerEnter(PointerEventData eventData)
     {
-        UIController.instance.SetCursorRight();
+        transform.localScale = new Vector2(1.2f, 1.2f);
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        UIController.instance.SetCursorMain();
+        transform.localScale = Vector2.one;
     }
 }

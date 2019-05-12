@@ -81,7 +81,6 @@ public class Racurs : IRacurs
     public void ActivateRacurs()
     {
         GameController.instance.currentRacurs = this;
-        UIController.instance.SetCursorMain();
         gameObject.SetActive(true);
         SetButtons();
     }
