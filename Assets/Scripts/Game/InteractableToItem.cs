@@ -14,8 +14,11 @@ public class InteractableToItem: MonoBehaviour
 
     private void OnMouseDown()
     {
-        UIController.instance.ShowItem(itemSprite, text, objToDeactivate);
-        UIController.instance.PlaceToInventory(itemSprite);
-        gameObject.SetActive(false);
+        if (!UIController.instance.menuIsOpen)
+        {
+            UIController.instance.ShowItem(itemSprite, text, objToDeactivate);
+            UIController.instance.PlaceToInventory(itemSprite);
+            gameObject.SetActive(false);
+        }
     }
 }

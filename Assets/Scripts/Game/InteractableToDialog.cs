@@ -9,7 +9,8 @@ public class InteractableToDialog : MonoBehaviour
 
     private void OnMouseDown()
     {
-        dialog.SetActive(true);
+        if (!UIController.instance.menuIsOpen)
+            dialog.SetActive(true);
     }
 
     private void OnEnable()

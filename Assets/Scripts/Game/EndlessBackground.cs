@@ -4,22 +4,28 @@ using UnityEngine;
 
 public class EndlessBackground : MonoBehaviour
 {
-    private float length = 75f;
-    Vector3 speed = new Vector3(13f, 0f, 0f);
+    private float length;
+    Vector3 speed; 
 
-    void Update()
+    private void Start()
     {
-        transform.position -= speed * Time.deltaTime;
+        speed = new Vector3(13f, 0f, 0f);
+        length = 76.52f;
+    }
 
-        if(transform.position.x < - length)
+    void FixedUpdate()
+    {
+        transform.localPosition -= speed * Time.fixedDeltaTime;
+
+        if(transform.localPosition.x <= -length)
         {
+            //print(transform.localPosition.x);
             Reposition();
         }
     }
 
     private void Reposition()
     {
-        Vector2 offset = new Vector2(length * 2f, 0f);
-        transform.position = (Vector2)transform.position + offset;
+        transform.localPosition = new Vector3(76.52f, 0f, 0f);
     }
 }

@@ -6,6 +6,7 @@ public class ItemTake : EventTrigger
 {
     public override void OnPointerDown(PointerEventData eventData)
     {
-        UIController.instance.Back();
+        if (!UIController.instance.menuIsOpen)
+            UIController.instance.Back();
     }
 }

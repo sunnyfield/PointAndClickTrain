@@ -9,6 +9,7 @@ public class InteractableToRacurs : MonoBehaviour
 
     private void OnMouseDown()
     {
-        racurs.OpenRacurs();
+        if (!UIController.instance.menuIsOpen)
+            racurs.OpenRacurs();
     }
 }

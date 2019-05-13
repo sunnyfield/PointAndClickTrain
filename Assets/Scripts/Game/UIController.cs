@@ -57,7 +57,7 @@ public class UIController : MonoBehaviour
     private GameObject[] inventoryCells;
     private int freeCell;
 
-    private bool isOpen = false;
+    public bool menuIsOpen = false;
 
     private void Awake()
     {
@@ -72,7 +72,7 @@ public class UIController : MonoBehaviour
         pointerEventData = new PointerEventData(eventSystem) { position = Input.mousePosition };
 
         gameMenuButton.onClick.AddListener(() => OpenMenu());
-        gameMenuAnimator.SetBool("isOpen", isOpen);
+        gameMenuAnimator.SetBool("isOpen", menuIsOpen);
 
         exitButton.onClick.AddListener(() => Application.Quit());
 
@@ -133,8 +133,8 @@ public class UIController : MonoBehaviour
 
     private void OpenMenu()
     {
-        isOpen = !isOpen;
-        gameMenuAnimator.SetBool("isOpen", isOpen);
+        menuIsOpen = !menuIsOpen;
+        gameMenuAnimator.SetBool("isOpen", menuIsOpen);
     }
 
     public void ShowItem(Sprite item, GameObject text, GameObject obj)
