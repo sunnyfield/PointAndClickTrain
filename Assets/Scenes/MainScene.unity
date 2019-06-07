@@ -3010,7 +3010,7 @@ Camera:
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
+  m_FocalLength: 17.460108
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -3019,10 +3019,10 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 116
   orthographic: 1
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 9.4
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -4423,7 +4423,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8f2acffec1c9eba46a11ff3602a8a564, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8809,6 +8809,7 @@ MonoBehaviour:
   itemPanel: {fileID: 945053868}
   characterSheet: {fileID: 1264447237}
   closedNote: {fileID: 1816992119}
+  menuIsOpen: 0
 --- !u!1 &1494946796
 GameObject:
   m_ObjectHideFlags: 0
