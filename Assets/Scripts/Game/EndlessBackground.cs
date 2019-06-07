@@ -13,19 +13,12 @@ public class EndlessBackground : MonoBehaviour
         length = 76.52f;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        transform.localPosition -= speed * Time.fixedDeltaTime;
+        transform.localPosition -= speed * Time.deltaTime;
 
-        if(transform.localPosition.x <= -length)
-        {
-            //print(transform.localPosition.x);
-            Reposition();
-        }
+        if(transform.localPosition.x <= -length + 0.5f) Reposition();
     }
 
-    private void Reposition()
-    {
-        transform.localPosition = new Vector3(76.52f, 0f, 0f);
-    }
+    private void Reposition() { transform.localPosition = new Vector3(76.52f, 0f, 0f); }
 }
