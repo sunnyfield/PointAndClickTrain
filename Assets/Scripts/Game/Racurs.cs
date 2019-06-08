@@ -39,8 +39,8 @@ public class Racurs : IRacurs
             return;
 
         forwardRacurs.SetPrev(this);
+        DeactivateRacurs();
         forwardRacurs.ActivateRacurs();    
-        gameObject.SetActive(false);
     }
 
     protected virtual void Left()
@@ -49,8 +49,8 @@ public class Racurs : IRacurs
             return;
 
         leftRacurs.SetPrev(this);
+        DeactivateRacurs();
         leftRacurs.ActivateRacurs();      
-        gameObject.SetActive(false);
     }
 
     protected virtual void Right()
@@ -59,17 +59,17 @@ public class Racurs : IRacurs
             return;
 
         rightRacurs.SetPrev(this);
+        DeactivateRacurs();
         rightRacurs.ActivateRacurs();
-        gameObject.SetActive(false);
     }
 
-    protected void Backward()
+    protected virtual void Backward()
     {
         if (prevRacurs == null)
             return;
 
+        DeactivateRacurs();
         prevRacurs.ActivateRacurs();
-        gameObject.SetActive(false);
     }
 
     public void OpenRacurs()
@@ -78,7 +78,7 @@ public class Racurs : IRacurs
         ActivateRacurs();
     }
 
-    public void ActivateRacurs()
+    public virtual void ActivateRacurs()
     {
         GameController.instance.currentRacurs = this;
         gameObject.SetActive(true);
@@ -91,25 +91,13 @@ public class Racurs : IRacurs
         ClearButtons();
     }
 
-    public void SetForw(IRacurs forw)
-    {
-        forwardRacurs = forw;
-    }
+    public void SetForw(IRacurs forw) { forwardRacurs = forw; }
 
-    public void SetPrev(IRacurs prev)
-    {
-        prevRacurs = prev;
-    }
+    public void SetPrev(IRacurs prev) { prevRacurs = prev; }
 
-    public void SetRight(IRacurs right)
-    {
-        rightRacurs = right;
-    }
+    public void SetRight(IRacurs right) { rightRacurs = right; }
 
-    public void SetLeft(IRacurs left)
-    {
-        leftRacurs = left;
-    }
+    public void SetLeft(IRacurs left) { leftRacurs = left; }
 
     public void SetButtons()
     {
@@ -118,7 +106,7 @@ public class Racurs : IRacurs
         else
         {
             UIController.instance.forward.gameObject.SetActive(true);
-            UIController.instance.forward.onClick.RemoveAllListeners();
+            //UIController.instance.forward.onClick.RemoveAllListeners();
             UIController.instance.forward.onClick.AddListener(Forward);
         }
 
@@ -127,7 +115,7 @@ public class Racurs : IRacurs
         else
         {
             UIController.instance.backward.gameObject.SetActive(true);
-            UIController.instance.backward.onClick.RemoveAllListeners();
+            //UIController.instance.backward.onClick.RemoveAllListeners();
             UIController.instance.backward.onClick.AddListener(Backward);
         }
 
@@ -136,7 +124,7 @@ public class Racurs : IRacurs
         else
         {
             UIController.instance.right.gameObject.SetActive(true);
-            UIController.instance.right.onClick.RemoveAllListeners();
+            //UIController.instance.right.onClick.RemoveAllListeners();
             UIController.instance.right.onClick.AddListener(Right);
         }
 
@@ -145,7 +133,7 @@ public class Racurs : IRacurs
         else
         {
             UIController.instance.left.gameObject.SetActive(true);
-            UIController.instance.left.onClick.RemoveAllListeners();
+            //UIController.instance.left.onClick.RemoveAllListeners();
             UIController.instance.left.onClick.AddListener(Left);
         }
     }

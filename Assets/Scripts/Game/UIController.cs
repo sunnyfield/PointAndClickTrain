@@ -54,7 +54,10 @@ public class UIController : MonoBehaviour
 
     public GameObject closedNote;
 
-    private GameObject[] inventoryCells;
+    public GameObject itemCounter;
+    private Text itemCountText;
+    private static int maxItemCount = 5;
+    private GameObject[] inventoryCells = new GameObject[maxItemCount];
     private int freeCell;
 
     public bool menuIsOpen = false;
@@ -76,9 +79,16 @@ public class UIController : MonoBehaviour
 
         exitButton.onClick.AddListener(() => Application.Quit());
 
-        inventoryCells = GameObject.FindGameObjectsWithTag(tagCell);
+        inventoryCells[0] = GameObject.Find("/Canvas/Panel_GameMenu/Inventory/Image_Cell1");
+        inventoryCells[1] = GameObject.Find("/Canvas/Panel_GameMenu/Inventory/Image_Cell2");
+        inventoryCells[2] = GameObject.Find("/Canvas/Panel_GameMenu/Inventory/Image_Cell3");
+        inventoryCells[3] = GameObject.Find("/Canvas/Panel_GameMenu/Inventory/Image_Cell4");
+        inventoryCells[4] = GameObject.Find("/Canvas/Panel_GameMenu/Inventory/Image_Cell5");
+        // = GameObject.FindGameObjectsWithTag(tagCell);
         freeCell = 0;
 
+        itemCountText = itemCounter.transform.GetChild(0).GetComponent<Text>();
+        itemCounter.SetActive(false);
         itemPanel.SetActive(false);
 
         Cursor.SetCursor(cursorMain, hotSpot, cursorMode);
@@ -93,38 +103,24 @@ public class UIController : MonoBehaviour
 
         if (results2D.Count > 0)
         {
-            if (results2D[0].gameObject.CompareTag(tagMagnifier))
-                SetCursorMagnifier();
-            else if (results2D[0].gameObject.CompareTag(tagLeft))
-                SetCursorLeft();
-            else if (results2D[0].gameObject.CompareTag(tagRight))
-                SetCursorRight();
-            else if (results2D[0].gameObject.CompareTag(tagForward))
-                SetCursorForward();
-            else if (results2D[0].gameObject.CompareTag(tagBackward))
-                SetCursorBackward();
-            else if (results2D[0].gameObject.CompareTag(tagOpen))
-                SetCursorOpen();
-            else
-                SetCursorMain();
+            if (results2D[0].gameObject.CompareTag(tagMagnifier)) SetCursorMagnifier();
+            else if (results2D[0].gameObject.CompareTag(tagLeft)) SetCursorLeft();
+            else if (results2D[0].gameObject.CompareTag(tagRight)) SetCursorRight();
+            else if (results2D[0].gameObject.CompareTag(tagForward)) SetCursorForward();
+            else if (results2D[0].gameObject.CompareTag(tagBackward)) SetCursorBackward();
+            else if (results2D[0].gameObject.CompareTag(tagOpen)) SetCursorOpen();
+            else SetCursorMain();
         }
-        else
-            SetCursorMain();
+        else SetCursorMain();
 
         if (resultsUI.Count > 0)
         {
-            if (resultsUI[0].gameObject.CompareTag(tagLeft))
-                SetCursorLeft();
-            else if (resultsUI[0].gameObject.CompareTag(tagRight))
-                SetCursorRight();
-            else if (resultsUI[0].gameObject.CompareTag(tagForward))
-                SetCursorForward();
-            else if (resultsUI[0].gameObject.CompareTag(tagBackward))
-                SetCursorBackward();
-            else if (resultsUI[0].gameObject.CompareTag(tagTake))
-                SetCursorTake();
-            else
-                SetCursorMain();
+            if (resultsUI[0].gameObject.CompareTag(tagLeft)) SetCursorLeft();
+            else if (resultsUI[0].gameObject.CompareTag(tagRight)) SetCursorRight();
+            else if (resultsUI[0].gameObject.CompareTag(tagForward)) SetCursorForward();
+            else if (resultsUI[0].gameObject.CompareTag(tagBackward)) SetCursorBackward();
+            else if (resultsUI[0].gameObject.CompareTag(tagTake)) SetCursorTake();
+            else SetCursorMain();
         }
 
         resultsUI.Clear();
@@ -137,12 +133,12 @@ public class UIController : MonoBehaviour
         gameMenuAnimator.SetBool("isOpen", menuIsOpen);
     }
 
-    public void ShowItem(Sprite item, GameObject text, GameObject obj)
+    public void ShowItem(Sprite item, GameObject text, GameObject objToDeactivate)
     {
-        if (obj != null)
+        if (objToDeactivate != null)
         {
-            objToActivate = obj;
-            obj.SetActive(false);
+            objToActivate = objToDeactivate;
+            objToDeactivate.SetActive(false);
         }
         itemPanel.transform.GetChild(1).gameObject.SetActive(false);
         itemPanel.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = item;
@@ -156,6 +152,7 @@ public class UIController : MonoBehaviour
     public void PlaceToInventory(Sprite item)
     {
         Image cell;
+        itemCountText.text = (freeCell + 1).ToString();
         cell = inventoryCells[freeCell++].GetComponent<Image>();
         cell.sprite = item;
         cell.color = Color.white;
@@ -164,8 +161,7 @@ public class UIController : MonoBehaviour
 
     public void Back()
     {
-        if (objToActivate != null)
-            objToActivate.SetActive(true);
+        if (objToActivate != null) objToActivate.SetActive(true);
 
         itemText.SetActive(false);
         itemPanel.SetActive(false);
@@ -175,11 +171,9 @@ public class UIController : MonoBehaviour
 
     public void ShowCharacterSheet(Sprite characterSheetSprite)
     {
-        if (closedNote.activeInHierarchy)
-            closedNote.SetActive(false);
+        if (closedNote.activeInHierarchy) closedNote.SetActive(false);
 
-        if (!characterSheet.activeInHierarchy)
-            characterSheet.SetActive(true);
+        if (!characterSheet.activeInHierarchy) characterSheet.SetActive(true);
         
         characterSheet.GetComponent<Image>().sprite = characterSheetSprite;
     }
@@ -200,58 +194,27 @@ public class UIController : MonoBehaviour
 
     public void AtivateButtons()
     {
-        if(forward.onClick.GetPersistentEventCount() > 0)
-            forward.gameObject.SetActive(true);
-        if (backward.onClick.GetPersistentEventCount() > 0)
-            backward.gameObject.SetActive(true);
-        if (left.onClick.GetPersistentEventCount() > 0)
-            left.gameObject.SetActive(true);
-        if (right.onClick.GetPersistentEventCount() > 0)
-            right.gameObject.SetActive(true);
+        if(forward.onClick.GetPersistentEventCount() > 0) forward.gameObject.SetActive(true);
+        if (backward.onClick.GetPersistentEventCount() > 0) backward.gameObject.SetActive(true);
+        if (left.onClick.GetPersistentEventCount() > 0) left.gameObject.SetActive(true);
+        if (right.onClick.GetPersistentEventCount() > 0) right.gameObject.SetActive(true);
     }
 
-    private void SetCursorMain()
-    {
-        Cursor.SetCursor(cursorMain, hotSpot, cursorMode);
-    }
+    private void SetCursorMain() { Cursor.SetCursor(cursorMain, hotSpot, cursorMode); }
 
-    private void SetCursorPoint()
-    {
-        Cursor.SetCursor(cursorPoint, hotSpot, cursorMode);
-    }
+    private void SetCursorPoint() { Cursor.SetCursor(cursorPoint, hotSpot, cursorMode); }
 
-    private void SetCursorTake()
-    {
-        Cursor.SetCursor(cursorTake, hotSpot, cursorMode);
-    }
+    private void SetCursorTake() { Cursor.SetCursor(cursorTake, hotSpot, cursorMode); }
 
-    private void SetCursorLeft()
-    {
-        Cursor.SetCursor(cursorLeft, hotSpot, cursorMode);
-    }
+    private void SetCursorLeft() { Cursor.SetCursor(cursorLeft, hotSpot, cursorMode); }
 
-    private void SetCursorRight()
-    {
-        Cursor.SetCursor(cursorRight, hotSpot, cursorMode);
-    }
+    private void SetCursorRight() { Cursor.SetCursor(cursorRight, hotSpot, cursorMode); }
 
-    private void SetCursorForward()
-    {
-        Cursor.SetCursor(cursorForward, hotSpot, cursorMode);
-    }
+    private void SetCursorForward() { Cursor.SetCursor(cursorForward, hotSpot, cursorMode); }
 
-    private void SetCursorBackward()
-    {
-        Cursor.SetCursor(cursorBackward, hotSpot, cursorMode);
-    }
+    private void SetCursorBackward() { Cursor.SetCursor(cursorBackward, hotSpot, cursorMode); }
 
-    private void SetCursorMagnifier()
-    {
-        Cursor.SetCursor(cursorMagnifier, hotSpot, cursorMode);
-    }
+    private void SetCursorMagnifier() { Cursor.SetCursor(cursorMagnifier, hotSpot, cursorMode); }
 
-    private void SetCursorOpen()
-    {
-        Cursor.SetCursor(cursorPoint, hotSpot, cursorMode);
-    }
+    private void SetCursorOpen() { Cursor.SetCursor(cursorPoint, hotSpot, cursorMode); }
 }

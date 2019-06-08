@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 
 public enum RacursName { Corridor1WinL, Corridor2WinL, Corridor3WinL, Corridor1WinR, Corridor2WinR, Corridor3WinR,
-                         Room, Table, Window, Floor, Corpse,
+                         Table, Window, Floor, Corpse, Room,
                          Windows1, Windows2, Windows3, Windows4, Doors1, Doors2, Doors3, Doors4 };
 
 public class GameController : MonoBehaviour
@@ -27,30 +27,29 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(gameObject);
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
     }
 
     void Start()
     {
-        for(int i = 0; i < 11; i++)
+        for(int i = 0; i < 10; i++)
         {
             var racurs = Racurs.CreateRacurs(transform.GetChild(i).gameObject);
             racurses[(RacursName)i] = racurs;
 
-            if (i > 0)
-                racurs.DeactivateRacurs();
+            if (i > 0) racurs.DeactivateRacurs();
         }
+
+        racurses[(RacursName)10] = RacursRoom.CreateRacurs(transform.GetChild(10).gameObject);
+        racurses[RacursName.Room].DeactivateRacurs();
 
         for (int i = 11; i < racursCount; i++)
         {
             var racurs = RacursSides.CreateRacurs(transform.GetChild(i).gameObject);
             racurses[(RacursName)i] = racurs;
 
-            if (i > 0)
-                racurs.DeactivateRacurs();
+            if (i > 0) racurs.DeactivateRacurs();
         }
 
         racurses[RacursName.Corridor1WinL].SetForw(racurses[RacursName.Corridor2WinL]);

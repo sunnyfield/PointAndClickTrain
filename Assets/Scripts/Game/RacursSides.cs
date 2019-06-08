@@ -16,21 +16,19 @@ public class RacursSides : Racurs
 
     protected override void Left()
     {
-        if (leftRacurs == null)
-            return;
+        if (leftRacurs == null) return;
 
+        DeactivateRacurs();
         leftRacurs.ActivateRacurs();
         leftRacurs.SetPrev(prevRacurs);
-        gameObject.SetActive(false);
     }
 
     protected override void Right()
     {
-        if (rightRacurs == null)
-            return;
+        if (rightRacurs == null) return;
 
+        DeactivateRacurs();
         rightRacurs.ActivateRacurs();
         rightRacurs.SetPrev(prevRacurs);
-        gameObject.SetActive(false);
     }
 }

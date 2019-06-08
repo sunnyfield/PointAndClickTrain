@@ -18,7 +18,8 @@ public class InteractableToItem: MonoBehaviour
         {
             UIController.instance.ShowItem(itemSprite, text, objToDeactivate);
             UIController.instance.PlaceToInventory(itemSprite);
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }
